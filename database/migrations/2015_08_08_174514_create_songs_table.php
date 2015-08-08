@@ -16,6 +16,7 @@ class CreateSongsTable extends Migration
         Schema::create('songs', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('playlist_id')->references('id')->on('playlists');
+            $table->integer('priority')->unique();
             $table->string("youtube_url");
             $table->string("title");
             $table->string("artist");
