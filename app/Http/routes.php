@@ -16,3 +16,4 @@
 });*/
 
 Route::resource('playlists', '\App\Http\Controllers\PlayListController');
+Route::resource('playlists.songs', '\App\Http\Controllers\SongsController');
