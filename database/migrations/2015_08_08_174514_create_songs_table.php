@@ -21,6 +21,7 @@ class CreateSongsTable extends Migration
             $table->string("title");
             $table->string("artist");
             $table->integer("length");
+            $table->integer("filesize");
         });
     }
 

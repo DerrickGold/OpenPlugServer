@@ -18,7 +18,8 @@ class Song extends Model
         'youtube_url' => 'required|youtube',
         'title' => 'required',
         'artist' => 'required',
-        'length' => 'required|integer'
+        'length' => 'required|integer',
+        'filesize'=>'required|integer',
     ];
 
     public function validationRules() {
