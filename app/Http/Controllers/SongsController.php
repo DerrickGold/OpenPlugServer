@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class SongsController extends Controller
 {
     protected $song;
+    private $priorityDistance = 1.0;
 
     public function __construct(Song $song) {
         $this->song = $song;
@@ -62,15 +63,25 @@ class SongsController extends Controller
         //set the playlist id to the one based in the url
         $input['playlist_id'] = $playlist->id;
 
+        if(!array_key_exists('priority', $input)) {
+            $lastSong = $this->song->orderby('priority', 'desc')->first();
+            if (!$lastSong)
+                $input['priority'] = $this->priorityDistance;
+            else
+                $input['priority'] = floor($lastSong->priority) + $this->priorityDistance;
+        }
         $validator = Validator::make($input, $this->song->validationRules());
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-        $this->song->fill($input);
-        $this->song->save();
 
-        return response()->json($this->song, 200);
+        $newSong = new $this->song();
+        $newSong->fill($input);
+
+
+        $newSong->save();
+        return response()->json($newSong, 200);
     }
 
     /**
@@ -79,14 +90,15 @@ class SongsController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($playlist_name, $priority)
+    public function show($playlist_name, $song_id)
     {
         $playlist = $this->playListByName($playlist_name);
         if (!$playlist) {
             return response()->json(['msg'=>"Invalid playlist"], 404);
         }
 
-        $song = $this->song->where('playlist_id', '=', $playlist->id)->where('priority', '=', $priority)->first();
+        $song = $this->song->find($song_id);
+        if(is_null($song)) return response()->json(["status"=>false], 404);
         return response()->json($song, 200);
     }
 
