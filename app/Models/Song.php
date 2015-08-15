@@ -25,4 +25,25 @@ class Song extends Model
     public function validationRules() {
         return $this->validationFields;
     }
+
+    public function getIdAttribute($value) {
+        return (int)$value;
+    }
+
+    public function getPlaylistIdAttribute($value) {
+        return (int)$value;
+    }
+
+    public function getPriorityAttribute($value) {
+        return (float)$value;
+    }
+
+    public function getLengthAttribute($value) {
+        return (int)$value;
+    }
+
+    public function getFilesizeAttribute($value) {
+        return (int)$value;
+    }
+
 }

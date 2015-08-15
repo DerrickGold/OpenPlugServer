@@ -19,4 +19,11 @@ class PlayList extends Model
         return $this->validationFields;
     }
 
+    public function getCurrentSongAttribute($value) {
+        return (int)$value;
+    }
+
+    public function getSongStartTimeAttribute($value) {
+        return (int)$value;
+    }
 }
