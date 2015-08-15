@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Input;
 
 class PlayListController extends Controller
@@ -30,15 +31,17 @@ class PlayListController extends Controller
     public function store(Request $request)
     {
         $newPlaylist = new $this->playlist();
-        $status = $newPlaylist->validation(Input::all());
+        $input = $request->all();
+        $validator = Validator::make($input, $newPlaylist->validationRules());
 
-        $httpCode = 400;
-        if ($status) {
-            $newPlaylist->save();
-            $httpCode = 200;
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
         }
+        $newPlaylist->fill($input);
+        $newPlaylist->save();
+        $newPlaylist->status = true;
 
-        return response()->json(["status" => $status], $httpCode);
+        return response()->json($newPlaylist, 200);
     }
 
 
