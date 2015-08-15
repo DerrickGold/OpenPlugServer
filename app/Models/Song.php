@@ -10,7 +10,7 @@ class Song extends Model
     protected $table = 'songs';
     public $timestamps = false;
 
-    protected $fillable = ['playlist_id', 'priority', 'youtube_url', 'title', 'artist', 'length'];
+    protected $fillable = ['playlist_id', 'priority', 'youtube_url', 'title', 'artist', 'length', 'filesize'];
 
     protected $validationFields = [
         'playlist_id' => 'required|exists:playlists,id',
