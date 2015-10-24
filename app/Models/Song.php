@@ -14,7 +14,7 @@ class Song extends Model
 
     protected $validationFields = [
         'playlist_id' => 'required|exists:playlists,id',
-        'priority' => 'required|integer',
+        'priority' => 'required|float',
         'youtube_url' => 'required|youtube',
         'title' => 'required',
         'artist' => 'required',

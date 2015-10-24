@@ -49,7 +49,7 @@ class PlayListController extends Controller
         if (is_null($curNumber)) $curNumber = 0;
 
         $nextSong = $this->songs->where('playlist_id', '=', $playlist->id)
-            ->where('priority', '>', $curNumber)->orderby('priority')->first();
+            ->where('priority', '>', $curNumber)->orderby('priority', 'asc')->first();
 
         $status = false;
         if(!is_null($nextSong)) {

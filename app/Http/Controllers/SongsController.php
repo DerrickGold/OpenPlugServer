@@ -64,7 +64,9 @@ class SongsController extends Controller
         $input['playlist_id'] = $playlist->id;
 
         if(!array_key_exists('priority', $input)) {
-            $lastSong = $this->song->orderby('priority', 'desc')->first();
+            $lastSong = $this->song->where('playlist_id', '=', $playlist->id)
+                ->orderby('priority', 'desc')->first();
+
             if (!$lastSong)
                 $input['priority'] = $this->priorityDistance;
             else
